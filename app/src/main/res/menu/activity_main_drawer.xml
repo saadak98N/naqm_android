@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/nav_item_one"
+            android:title="@string/home" />
+        <item android:id="@+id/nav_item_two"
+            android:title="@string/real_time_graphs" />
+        <item android:id="@+id/nav_item_three"
+            android:title="@string/date_wise_graphs" />
+    </group>
+</menu>

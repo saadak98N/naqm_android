@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">NAQM</string>
+    <string name="date_wise_graphs">Date-wise Graphs</string>
+    <string name="real_time_graphs">Real-time Graphs</string>
+    <string name="home">Home</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
 </resources>
