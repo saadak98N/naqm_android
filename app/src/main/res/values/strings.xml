@@ -5,4 +5,10 @@
     <string name="home">Home</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
+    <string name="ch4">CH4</string>
+    <string name="co">CO</string>
+    <string name="nh3">NH3</string>
+    <string name="no2">NO2</string>
+    <string name="so2">SO2</string>
+    <string name="dust">dust</string>
 </resources>

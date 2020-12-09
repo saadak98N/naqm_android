@@ -8,29 +8,67 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anychart.APIlib;
+import com.anychart.AnyChart;
+import com.anychart.AnyChartView;
+import com.anychart.chart.common.dataentry.DataEntry;
+import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.anychart.charts.Cartesian;
+import com.anychart.core.cartesian.series.Line;
+import com.anychart.core.utils.OrdinalZoom;
+import com.anychart.data.Mapping;
+import com.anychart.data.Set;
+import com.anychart.enums.Anchor;
+import com.anychart.enums.MarkerType;
+import com.anychart.enums.TooltipPositionMode;
+import com.anychart.graphics.vector.Stroke;
 import com.google.android.material.navigation.NavigationView;
 
-import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class RealtimeGraphsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AsyncFetch.onResponse {
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
+    public List<Air> dataFromDb;
+    public List<String> date = new ArrayList<>();
+    public List<String> time = new ArrayList<>();
+    public List<Double> nh3 = new ArrayList<>();
+    public List<Double> co = new ArrayList<>();
+    public List<Double> no2 = new ArrayList<>();
+    public List<Integer> so2 = new ArrayList<>();
+    public List<Integer> dust = new ArrayList<>();
+    public List<Double> ch4 = new ArrayList<>();
+    public List<Integer> temperature = new ArrayList<>();
+    public List<Integer> humidity = new ArrayList<>();
+
+    private Button nh3_button;
+    private Button co_button;
+    private Button no2_button;
+    private Button so2_button;
+    private Button dust_button;
+    private Button ch4_button;
+
+    List<DataEntry> seriesDataNh3 = new ArrayList<>();
+    List<DataEntry> seriesDataCo = new ArrayList<>();
+    List<DataEntry> seriesDataNo2 = new ArrayList<>();
+    List<DataEntry> seriesDataSo2 = new ArrayList<>();
+    List<DataEntry> seriesDataCh4 = new ArrayList<>();
+    List<DataEntry> seriesDataDust = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -55,11 +93,8 @@ public class RealtimeGraphsActivity extends AppCompatActivity implements Navigat
         getSupportActionBar().setHomeButtonEnabled(true);
 
         //data retrieval pre-processing
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        LocalDate date = LocalDate.now().plusDays(1);
-        String toDate = sdf.format(date);
-        LocalDate date1 = LocalDate.now().minusDays(2);
-        String fromDate = sdf.format(date1);
+        LocalDate toDate = LocalDate.now().plusDays(1);
+        LocalDate fromDate = LocalDate.now();
         String URL = "http://111.68.101.14/db/data.php?node_id=2&from=" + fromDate + "&to=" + toDate;
         Log.e("Url", URL);
         AsyncFetch database = new AsyncFetch(this);
@@ -113,7 +148,63 @@ public class RealtimeGraphsActivity extends AppCompatActivity implements Navigat
             super.onBackPressed();
         }
     }
-    public void onResponse(JSONObject object) {
-        Log.e("Json Response", "Json Response");
+    public void onResponse(List<Air> object) {
+        Collections.reverse(object);
+        dataFromDb = object;
+        Log.e("Json Response assigned", "Json Response "+ object.get(0).getTime() +" lol "+ object.get(0).getDate());
+        for (int i = 0; i< object.size(); i++){
+            Air a = object.get(i);
+            date.add(a.getDate());
+            time.add(a.getTime());
+            nh3.add(a.getNh3());
+            co.add(a.getCo());
+            no2.add(a.getNo2());
+            so2.add(a.getSo2());
+            dust.add(a.getDust());
+            ch4.add(a.getCh4());
+            temperature.add(a.getTemperature());
+            humidity.add(a.getHumidity());
+
+            seriesDataNh3.add(new ValueDataEntry(a.getTime(), a.getNh3()));
+            seriesDataCo.add(new ValueDataEntry(a.getTime(), a.getCo()));
+            seriesDataNo2.add(new ValueDataEntry(a.getTime(), a.getNo2()));
+            seriesDataSo2.add(new ValueDataEntry(a.getTime(), a.getSo2()));
+            seriesDataCh4.add(new ValueDataEntry(a.getTime(), a.getCh4()));
+            seriesDataDust.add(new ValueDataEntry(a.getTime(), a.getDust()));
+        }
+        Log.e("Json Response assigned", "Lists made ");
+        processGraphs(1);
+    }
+
+    public void processGraphs(int choice){
+        Log.e("Json Response assigned", "Making chart");
+
+        AnyChartView anyChartView = null;
+        if (choice==1){
+            Log.e("Json Response assigned", "1st");
+            anyChartView = findViewById(R.id.chartView1);
+            APIlib.getInstance().setActiveAnyChartView(anyChartView);
+        }
+        Cartesian cartesian = AnyChart.line();
+        cartesian.animation(true);
+        if(choice==1){
+            Log.e("Json Response assigned", "2");
+            cartesian.title("Trend of Ammonia Today");
+        }
+        cartesian.xScroller(true);
+        OrdinalZoom xZoom = cartesian.xZoom();
+        xZoom.setToPointsCount(50, false, null);
+        xZoom.getStartRatio();
+        xZoom.getEndRatio();
+
+        if(choice==1){
+            Log.e("Json Response assigned", "3rd");
+            Line series1 = cartesian.line(seriesDataNh3);
+            series1.name("NH3");
+        }
+        cartesian.xAxis(0).title("Time");
+        cartesian.yAxis(0).title("ppm");
+        assert anyChartView != null;
+        anyChartView.setChart(cartesian);
     }
 }
