@@ -14,14 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -32,6 +24,66 @@
             android:id="@+id/chartLayout">
             <com.anychart.AnyChartView
                 android:id="@+id/chartView1"
+                android:layout_width="match_parent"
+                android:paddingEnd="10sp"
+                android:layout_height="500sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:itemBackground="@color/black"
+                android:background="@color/white"
+                android:layout_marginTop="?attr/actionBarSize"
+                tools:ignore="RtlSymmetry" />
+            <com.anychart.AnyChartView
+                android:id="@+id/chartView2"
+                android:layout_width="match_parent"
+                android:paddingEnd="10sp"
+                android:layout_height="500sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:itemBackground="@color/black"
+                android:background="@color/white"
+                android:layout_marginTop="?attr/actionBarSize"
+                tools:ignore="RtlSymmetry" />
+            <com.anychart.AnyChartView
+                android:id="@+id/chartView3"
+                android:layout_width="match_parent"
+                android:paddingEnd="10sp"
+                android:layout_height="500sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:itemBackground="@color/black"
+                android:background="@color/white"
+                android:layout_marginTop="?attr/actionBarSize"
+                tools:ignore="RtlSymmetry" />
+            <com.anychart.AnyChartView
+                android:id="@+id/chartView4"
+                android:layout_width="match_parent"
+                android:paddingEnd="10sp"
+                android:layout_height="500sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:itemBackground="@color/black"
+                android:background="@color/white"
+                android:layout_marginTop="?attr/actionBarSize"
+                tools:ignore="RtlSymmetry" />
+            <com.anychart.AnyChartView
+                android:id="@+id/chartView5"
+                android:layout_width="match_parent"
+                android:paddingEnd="10sp"
+                android:layout_height="500sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:itemBackground="@color/black"
+                android:background="@color/white"
+                android:layout_marginTop="?attr/actionBarSize"
+                tools:ignore="RtlSymmetry" />
+            <com.anychart.AnyChartView
+                android:id="@+id/chartView6"
                 android:layout_width="match_parent"
                 android:paddingEnd="10sp"
                 android:layout_height="500sp"
@@ -128,7 +180,16 @@
                 android:textAlignment="center"/>
         </RelativeLayout>
     </RelativeLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/activity_main_drawer" />
 </androidx.drawerlayout.widget.DrawerLayout>
 
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 
 

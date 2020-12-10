@@ -1,22 +1,11 @@
 package com.example.naqm;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import com.anychart.APIlib;
 import com.anychart.AnyChart;
@@ -26,24 +15,13 @@ import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Cartesian;
 import com.anychart.core.cartesian.series.Line;
 import com.anychart.core.utils.OrdinalZoom;
-import com.anychart.data.Mapping;
-import com.anychart.data.Set;
-import com.anychart.enums.Anchor;
-import com.anychart.enums.MarkerType;
-import com.anychart.enums.TooltipPositionMode;
-import com.anychart.graphics.vector.Stroke;
-import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
-public class RealtimeGraphsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AsyncFetch.onResponse {
-    private DrawerLayout drawer;
-    private ActionBarDrawerToggle toggle;
+public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.onResponse {
     public List<Air> dataFromDb;
     public List<String> date = new ArrayList<>();
     public List<String> time = new ArrayList<>();
@@ -55,13 +33,6 @@ public class RealtimeGraphsActivity extends AppCompatActivity implements Navigat
     public List<Double> ch4 = new ArrayList<>();
     public List<Integer> temperature = new ArrayList<>();
     public List<Integer> humidity = new ArrayList<>();
-
-    private Button nh3_button;
-    private Button co_button;
-    private Button no2_button;
-    private Button so2_button;
-    private Button dust_button;
-    private Button ch4_button;
 
     List<DataEntry> seriesDataNh3 = new ArrayList<>();
     List<DataEntry> seriesDataCo = new ArrayList<>();
@@ -75,22 +46,8 @@ public class RealtimeGraphsActivity extends AppCompatActivity implements Navigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_realtime_graphs);
-
-        //Setting the action bar
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        Toolbar toolbar = findViewById(R.id.toolbar_main);
-        toolbar.setTitle("");
-        TextView title = findViewById(R.id.title_text);
-        title.setText(R.string.real_time_graphs);
-        setSupportActionBar(toolbar);
-
-        //setting the sidebar
-        drawer = findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        super.onCreateToolbar(getString(R.string.real_time_graphs));
+        super.onCreateDrawer();
 
         //data retrieval pre-processing
         LocalDate toDate = LocalDate.now().plusDays(1);
@@ -100,53 +57,21 @@ public class RealtimeGraphsActivity extends AppCompatActivity implements Navigat
         AsyncFetch database = new AsyncFetch(this);
         database.setOnResponse(this);
         database.execute(URL);
-    }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        toggle.syncState();
-    }
+        Button nh3_button = findViewById(R.id.buttonNH3);
+        nh3_button.isPressed();
+        Button co_button = findViewById(R.id.buttonCO);
+        Button no2_button = findViewById(R.id.buttonNO2);
+        Button so2_button = findViewById(R.id.buttonSO2);
+        Button ch4_button = findViewById(R.id.buttonCH4);
+        Button dust_button = findViewById(R.id.buttonDUST);
 
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        toggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (toggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.nav_item_one) {
-            Toast.makeText(this, "Clicked item one", Toast.LENGTH_SHORT).show();
-            Intent myIntent = new Intent(RealtimeGraphsActivity.this, HomepageActivity.class);
-            RealtimeGraphsActivity.this.startActivity(myIntent);
-        }
-        if (id == R.id.nav_item_two) {
-            Toast.makeText(this, "Clicked item two", Toast.LENGTH_SHORT).show();
-        }
-        if (id == R.id.nav_item_three) {
-            Toast.makeText(this, "Clicked item three", Toast.LENGTH_SHORT).show();
-        }
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        nh3_button.setOnClickListener(v -> processGraphs(1));
+        co_button.setOnClickListener(v -> processGraphs(2));
+        no2_button.setOnClickListener(v -> processGraphs(3));
+        so2_button.setOnClickListener(v -> processGraphs(4));
+        ch4_button.setOnClickListener(v -> processGraphs(5));
+        dust_button.setOnClickListener(v -> processGraphs(6));
     }
     public void onResponse(List<Air> object) {
         Collections.reverse(object);
@@ -185,26 +110,86 @@ public class RealtimeGraphsActivity extends AppCompatActivity implements Navigat
             anyChartView = findViewById(R.id.chartView1);
             APIlib.getInstance().setActiveAnyChartView(anyChartView);
         }
+        if(choice==2){
+            Log.e("Json Response assigned", "1st- 2");
+            anyChartView = findViewById(R.id.chartView2);
+            APIlib.getInstance().setActiveAnyChartView(anyChartView);
+        }
+        if(choice==3){
+            Log.e("Json Response assigned", "1st- 2");
+            anyChartView = findViewById(R.id.chartView3);
+            APIlib.getInstance().setActiveAnyChartView(anyChartView);
+        }
+        if(choice==4){
+            anyChartView = findViewById(R.id.chartView4);
+            APIlib.getInstance().setActiveAnyChartView(anyChartView);
+        }
+        if(choice==5){
+            anyChartView = findViewById(R.id.chartView5);
+            APIlib.getInstance().setActiveAnyChartView(anyChartView);
+        }
+        if(choice==6){
+            anyChartView = findViewById(R.id.chartView6);
+            APIlib.getInstance().setActiveAnyChartView(anyChartView);
+        }
         Cartesian cartesian = AnyChart.line();
         cartesian.animation(true);
         if(choice==1){
-            Log.e("Json Response assigned", "2");
             cartesian.title("Trend of Ammonia Today");
+        }
+        if(choice==2){
+            cartesian.title("Trend of Carbon Monoxide Today");
+        }
+        if(choice==3){
+            cartesian.title("Trend of Nitrogen Dioxide Today");
+        }
+        if(choice==4){
+            cartesian.title("Trend of Sulphur Dioxide Today");
+        }
+        if(choice==5){
+            cartesian.title("Trend of Methane Today");
+        }
+        if(choice==6){
+            cartesian.title("Trend of Dust Particles Today");
         }
         cartesian.xScroller(true);
         OrdinalZoom xZoom = cartesian.xZoom();
         xZoom.setToPointsCount(50, false, null);
         xZoom.getStartRatio();
         xZoom.getEndRatio();
-
+        Line series1;
         if(choice==1){
-            Log.e("Json Response assigned", "3rd");
-            Line series1 = cartesian.line(seriesDataNh3);
+            series1 = cartesian.line(seriesDataNh3);
             series1.name("NH3");
+        }
+        if(choice==2){
+            series1 = cartesian.line(seriesDataCo);
+            series1.name("CO");
+        }
+        if(choice==3){
+            series1 = cartesian.line(seriesDataNo2);
+            series1.name("NO2");
+        }
+        if(choice==4){
+            series1 = cartesian.line(seriesDataSo2);
+            series1.name("SO2");
+        }
+        if(choice==5){
+            series1 = cartesian.line(seriesDataCh4);
+            series1.name("CH4");
+        }
+        if(choice==6){
+            series1 = cartesian.line(seriesDataDust);
+            series1.name("Dust");
         }
         cartesian.xAxis(0).title("Time");
         cartesian.yAxis(0).title("ppm");
         assert anyChartView != null;
+
+        anyChartView.bringToFront();
+        anyChartView.invalidate();
         anyChartView.setChart(cartesian);
+        anyChartView.invalidate();
+
     }
 }
