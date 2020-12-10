@@ -14,11 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -129,7 +125,6 @@ public class AsyncFetch extends AsyncTask<String, Void, List<Air>> {
 
     @Override
     protected void onPostExecute(List<Air> result) {
-        // TODO Auto-generated method stub
         super.onPostExecute(result);
         this.onResponse.onResponse(result);
     }

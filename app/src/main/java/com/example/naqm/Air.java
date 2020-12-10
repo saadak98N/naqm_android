@@ -1,7 +1,5 @@
 package com.example.naqm;
 
-import java.util.Date;
-
 class Air {
     int id;
     String date;
