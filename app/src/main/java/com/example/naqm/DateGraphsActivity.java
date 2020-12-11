@@ -50,11 +50,17 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
     List<DataEntry> seriesDataSo2 = new ArrayList<>();
     List<DataEntry> seriesDataCh4 = new ArrayList<>();
     List<DataEntry> seriesDataDust = new ArrayList<>();
+    Boolean first_time = true;
 
     EditText edittext;
     final Calendar myCalendar = Calendar.getInstance();
     String URL;
     String URL2 = "nothing";
+
+    AnyChartView anyChartView1;
+    Set set1;
+    Cartesian cartesian;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -63,7 +69,7 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         setContentView(R.layout.activity_date_graphs);
         super.onCreateToolbar(getString(R.string.date_wise_graphs));
         super.onCreateDrawer();
-
+        first_time = true;
         //data retrieval pre-processing
         LocalDate toDate = LocalDate.now().plusDays(1);
         LocalDate fromDate = LocalDate.now();
@@ -73,6 +79,18 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         database.setOnResponse(this);
         database.execute(URL);
 
+        anyChartView1 = findViewById(R.id.chartView1);
+        cartesian = AnyChart.line();
+        set1 = Set.instantiate();
+        cartesian.animation(true);
+        cartesian.xScroller(true);
+        OrdinalZoom xZoom = cartesian.xZoom();
+        xZoom.setToPointsCount(50, false, null);
+        xZoom.getStartRatio();
+        cartesian.xAxis(0).title("Time");
+        cartesian.yAxis(0).title("ppm");
+        anyChartView1.setChart(cartesian);
+
         Button nh3_button = findViewById(R.id.buttonNH3);
         nh3_button.isPressed();
         Button co_button = findViewById(R.id.buttonCO);
@@ -81,12 +99,60 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         Button ch4_button = findViewById(R.id.buttonCH4);
         Button dust_button = findViewById(R.id.buttonDUST);
 
-        nh3_button.setOnClickListener(v -> processGraphs(1));
-        co_button.setOnClickListener(v -> processGraphs(2));
-        no2_button.setOnClickListener(v -> processGraphs(3));
-        so2_button.setOnClickListener(v -> processGraphs(4));
-        ch4_button.setOnClickListener(v -> processGraphs(5));
-        dust_button.setOnClickListener(v -> processGraphs(6));
+        nh3_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+//                if(first_time){
+                    processGraphs(1);
+//                }else{
+//                    updateGraphs(1);
+//                }
+            }
+        });
+        co_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+//                if(first_time){
+                    processGraphs(2);
+//                }else{
+//                    updateGraphs(2);
+//                }
+            }
+        });
+        no2_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+//                if(first_time){
+                    processGraphs(3);
+//                }else{
+//                    updateGraphs(3);
+//                }
+            }
+        });
+        so2_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+//                if(first_time){
+                    processGraphs(4);
+//                }else{
+//                    updateGraphs(4);
+//                }
+            }
+        });
+        ch4_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+//                if(first_time){
+                    processGraphs(5);
+//                }else{
+//                    updateGraphs(5);
+//                }
+            }
+        });
+        dust_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+//                if(first_time){
+                    processGraphs(6);
+//                }else{
+//                    updateGraphs(6);
+//                }
+            }
+        });
 
         edittext= (EditText) findViewById(R.id.dateText);
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -113,6 +179,7 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateLabel() {
+        first_time = false;
         String myFormat = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         String queryDate = sdf.format(myCalendar.getTime());
@@ -121,10 +188,10 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         LocalDate toDate = fromDate.plusDays(1);
         edittext.setText(sdf.format(myCalendar.getTime()));
         URL2 = "http://111.68.101.14/db/data.php?node_id=2&from=" + fromDate + "&to=" + toDate;
-        Log.e("Url", URL);
+        Log.e("Url", URL2);
         AsyncFetch database = new AsyncFetch(this);
         database.setOnResponse(this);
-        database.execute(URL);
+        database.execute(URL2);
     }
 
     public void onResponse(List<Air> object) {
@@ -171,112 +238,68 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
             seriesDataDust.add(new ValueDataEntry(a.getTime(), a.getDust()));
         }
         Log.e("Json Response assigned", "Lists made ");
-        processGraphs(1);
+            processGraphs(1);
+//        if(first_time){
+//        }else{
+//            updateGraphs(1);
+//        }
     }
 
     public void processGraphs(int choice){
-        Log.e("Json Response assigned", "Making chart");
+        Log.e("Processs", "Lists made ");
 
-        AnyChartView anyChartView = null;
-        if (choice==1){
-            Log.e("Json Response assigned", "1st");
-            anyChartView = findViewById(R.id.chartView1);
-            APIlib.getInstance().setActiveAnyChartView(anyChartView);
-        }
-        if(choice==2){
-            Log.e("Json Response assigned", "1st- 2");
-            anyChartView = findViewById(R.id.chartView2);
-            APIlib.getInstance().setActiveAnyChartView(anyChartView);
-        }
-        if(choice==3){
-            Log.e("Json Response assigned", "1st- 2");
-            anyChartView = findViewById(R.id.chartView3);
-            APIlib.getInstance().setActiveAnyChartView(anyChartView);
-        }
-        if(choice==4){
-            anyChartView = findViewById(R.id.chartView4);
-            APIlib.getInstance().setActiveAnyChartView(anyChartView);
-        }
-        if(choice==5){
-            anyChartView = findViewById(R.id.chartView5);
-            APIlib.getInstance().setActiveAnyChartView(anyChartView);
-        }
-        if(choice==6){
-            anyChartView = findViewById(R.id.chartView6);
-            APIlib.getInstance().setActiveAnyChartView(anyChartView);
-        }
-        Cartesian cartesian = AnyChart.line();
-        cartesian.animation(true);
         if(choice==1){
+            APIlib.getInstance().setActiveAnyChartView(anyChartView1);
             cartesian.title("Trend of Ammonia Today");
-        }
-        if(choice==2){
-            cartesian.title("Trend of Carbon Monoxide Today");
-        }
-        if(choice==3){
-            cartesian.title("Trend of Nitrogen Dioxide Today");
-        }
-        if(choice==4){
-            cartesian.title("Trend of Sulphur Dioxide Today");
-        }
-        if(choice==5){
-            cartesian.title("Trend of Methane Today");
-        }
-        if(choice==6){
-            cartesian.title("Trend of Dust Particles Today");
-        }
-        cartesian.xScroller(true);
-        OrdinalZoom xZoom = cartesian.xZoom();
-        xZoom.setToPointsCount(50, false, null);
-        xZoom.getStartRatio();
-        xZoom.getEndRatio();
-        Line series1;
-        Set set = Set.instantiate();
-        cartesian.removeAllSeries();
-        if(choice==1){
-            set.data(seriesDataNh3);
-            Mapping series1Data = set.mapAs("{ x: 'x', value: 'value' }");
+            set1.data(seriesDataNh3);
+            Line series1;
+            Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
             series1 = cartesian.line(series1Data);
             series1.name("NH3");
         }
         if(choice==2){
-            set.data(seriesDataCo);
-            Mapping series1Data = set.mapAs("{ x: 'x', value: 'value' }");
+            APIlib.getInstance().setActiveAnyChartView(anyChartView1);
+            cartesian.title("Trend of Carbon Monoxide Today");
+            set1.data(seriesDataCo);
+            Line series1;
+            Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
             series1 = cartesian.line(series1Data);
             series1.name("CO");
         }
         if(choice==3){
-            set.data(seriesDataNo2);
-            Mapping series1Data = set.mapAs("{ x: 'x', value: 'value' }");
+            APIlib.getInstance().setActiveAnyChartView(anyChartView1);
+            cartesian.title("Trend of Nitrogen Dioxide Today");
+            set1.data(seriesDataNo2);
+            Line series1;
+            Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
             series1 = cartesian.line(series1Data);
             series1.name("NO2");
         }
         if(choice==4){
-            set.data(seriesDataSo2);
-            Mapping series1Data = set.mapAs("{ x: 'x', value: 'value' }");
+            APIlib.getInstance().setActiveAnyChartView(anyChartView1);
+            cartesian.title("Trend of Carbon Dioxide Today");
+            set1.data(seriesDataSo2);
+            Line series1;
+            Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
             series1 = cartesian.line(series1Data);
-            series1.name("SO2");
+            series1.name("CO2");
         }
         if(choice==5){
-            set.data(seriesDataCh4);
-            Mapping series1Data = set.mapAs("{ x: 'x', value: 'value' }");
+            APIlib.getInstance().setActiveAnyChartView(anyChartView1);
+            cartesian.title("Trend of Methane Today");
+            set1.data(seriesDataCh4);
+            Line series1;
+            Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
             series1 = cartesian.line(series1Data);
             series1.name("CH4");
-        }
-        if(choice==6){
-            set.data(seriesDataDust);
-            Mapping series1Data = set.mapAs("{ x: 'x', value: 'value' }");
+        }if(choice==6){
+            APIlib.getInstance().setActiveAnyChartView(anyChartView1);
+            cartesian.title("Trend of Dust Particles Today");
+            set1.data(seriesDataDust);
+            Line series1;
+            Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
             series1 = cartesian.line(series1Data);
             series1.name("Dust");
         }
-        cartesian.xAxis(0).title("Time");
-        cartesian.yAxis(0).title("ppm");
-        assert anyChartView != null;
-
-        anyChartView.bringToFront();
-        anyChartView.invalidate();
-        anyChartView.setChart(cartesian);
-        anyChartView.invalidate();
-
     }
 }

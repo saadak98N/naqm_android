@@ -12,4 +12,6 @@
     <color name="colorSecondary">#78E7F5</color>
     <color name="colorSecondarySecond">#ABF5FF</color>
     <color name="colorAccent">#78E7F5</color>
+    <color name="yellow">#ffff00</color>
+    <color name="green">#00ff00</color>
 </resources>

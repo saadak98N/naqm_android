@@ -12,4 +12,11 @@
     <string name="so2">SO2</string>
     <string name="dust">dust</string>
     <string name="select_date">Select Date</string>
+    <string name="ammonia_ppm">Ammonia/ppm</string>
+    <string name="carbon_monoxide_ppm">Carbon Monoxide/ppm</string>
+    <string name="nitrogen_dioxide_pmm">Nitrogen Dioxide/pmm</string>
+    <string name="dust_pmm">Dust/pmm</string>
+    <string name="methane_pmm">Methane/pmm</string>
+    <string name="carbon_dioxide_pmm">Carbon Dioxide/pmm</string>
+    <string name="co2">CO2</string>
 </resources>

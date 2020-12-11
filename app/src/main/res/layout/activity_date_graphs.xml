@@ -28,66 +28,6 @@
                 android:background="@color/white"
                 android:layout_marginTop="?attr/actionBarSize"
                 tools:ignore="RtlSymmetry" />
-            <com.anychart.AnyChartView
-                android:id="@+id/chartView2"
-                android:layout_width="match_parent"
-                android:paddingEnd="10sp"
-                android:layout_height="500sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:itemBackground="@color/black"
-                android:background="@color/white"
-                android:layout_marginTop="?attr/actionBarSize"
-                tools:ignore="RtlSymmetry" />
-            <com.anychart.AnyChartView
-                android:id="@+id/chartView3"
-                android:layout_width="match_parent"
-                android:paddingEnd="10sp"
-                android:layout_height="500sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:itemBackground="@color/black"
-                android:background="@color/white"
-                android:layout_marginTop="?attr/actionBarSize"
-                tools:ignore="RtlSymmetry" />
-            <com.anychart.AnyChartView
-                android:id="@+id/chartView4"
-                android:layout_width="match_parent"
-                android:paddingEnd="10sp"
-                android:layout_height="500sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:itemBackground="@color/black"
-                android:background="@color/white"
-                android:layout_marginTop="?attr/actionBarSize"
-                tools:ignore="RtlSymmetry" />
-            <com.anychart.AnyChartView
-                android:id="@+id/chartView5"
-                android:layout_width="match_parent"
-                android:paddingEnd="10sp"
-                android:layout_height="500sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:itemBackground="@color/black"
-                android:background="@color/white"
-                android:layout_marginTop="?attr/actionBarSize"
-                tools:ignore="RtlSymmetry" />
-            <com.anychart.AnyChartView
-                android:id="@+id/chartView6"
-                android:layout_width="match_parent"
-                android:paddingEnd="10sp"
-                android:layout_height="500sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:itemBackground="@color/black"
-                android:background="@color/white"
-                android:layout_marginTop="?attr/actionBarSize"
-                tools:ignore="RtlSymmetry" />
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -157,7 +97,7 @@
                 android:layout_width="50sp"
                 android:layout_height="50sp"
                 android:background="@drawable/button_so2"
-                android:text="@string/so2"
+                android:text="@string/co2"
                 android:layout_marginTop="10sp"
                 android:layout_toEndOf="@id/buttonNO2"
                 android:layout_marginStart="10sp"
