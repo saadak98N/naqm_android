@@ -76,12 +76,12 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
     }
 
     public void colorBoxes(){
-        RelativeLayout layout1 =(RelativeLayout)findViewById(R.id.ammonia);
-        RelativeLayout layout2 =(RelativeLayout)findViewById(R.id.carbon_monoxide);
-        RelativeLayout layout3 =(RelativeLayout)findViewById(R.id.nitrogen_dioxide);
-        RelativeLayout layout4 =(RelativeLayout)findViewById(R.id.sulphur_dioxide);
-        RelativeLayout layout5 =(RelativeLayout)findViewById(R.id.methane);
-        RelativeLayout layout6 =(RelativeLayout)findViewById(R.id.dust);
+        RelativeLayout layout1 = findViewById(R.id.ammonia);
+        RelativeLayout layout2 = findViewById(R.id.carbon_monoxide);
+        RelativeLayout layout3 = findViewById(R.id.nitrogen_dioxide);
+        RelativeLayout layout4 = findViewById(R.id.sulphur_dioxide);
+        RelativeLayout layout5 = findViewById(R.id.methane);
+        RelativeLayout layout6 = findViewById(R.id.dust);
 
         if(nh3 < 200.0){
             layout1.setBackgroundResource(R.drawable.green_rect);

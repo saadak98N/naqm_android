@@ -120,7 +120,7 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
     }
 
     public void processGraphs(int choice){
-        Log.e("Processs", "Lists made ");
+        Log.e("Process", "Lists made ");
 
         if(choice==1){
             APIlib.getInstance().setActiveAnyChartView(anyChartView1);

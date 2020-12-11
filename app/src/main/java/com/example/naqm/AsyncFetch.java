@@ -39,7 +39,7 @@ public class AsyncFetch extends AsyncTask<String, Void, List<Air>> {
     @Override
     protected List<Air> doInBackground(String... params) {
         HttpURLConnection urlConnection = null;
-        List<Air> jsonList = new ArrayList<Air>();
+        List<Air> jsonList = new ArrayList<>();
         try {
             URL url = new URL(params[0]);
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -65,7 +65,7 @@ public class AsyncFetch extends AsyncTask<String, Void, List<Air>> {
     }
     @SuppressLint("SimpleDateFormat")
     private List<Air> parseData(String responseString){
-        List<Air> myList = new ArrayList<Air>();
+        List<Air> myList = new ArrayList<>();
         try {
             JSONArray jsonArr = new JSONArray(responseString);
             int numberOfPoints = jsonArr.length();
@@ -105,7 +105,7 @@ public class AsyncFetch extends AsyncTask<String, Void, List<Air>> {
         StringBuffer response = new StringBuffer();
         try {
             reader = new BufferedReader(new InputStreamReader(in));
-            String line = "";
+            String line;
             while ((line = reader.readLine()) != null) {
                 response.append(line);
             }
@@ -130,6 +130,6 @@ public class AsyncFetch extends AsyncTask<String, Void, List<Air>> {
     }
 
     public interface onResponse {
-        public void onResponse(List<Air> object);
+        void onResponse(List<Air> object);
     }
 }

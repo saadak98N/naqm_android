@@ -102,10 +102,6 @@ class Air {
         this.humidity = humidity;
     }
 
-    public int getNode_id() {
-        return node_id;
-    }
-
     public void setNode_id(int node_id) {
         this.node_id = node_id;
     }

@@ -4,9 +4,7 @@ import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 
 import androidx.annotation.RequiresApi;
@@ -50,7 +48,6 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
     List<DataEntry> seriesDataSo2 = new ArrayList<>();
     List<DataEntry> seriesDataCh4 = new ArrayList<>();
     List<DataEntry> seriesDataDust = new ArrayList<>();
-    Boolean first_time = true;
 
     EditText edittext;
     final Calendar myCalendar = Calendar.getInstance();
@@ -69,7 +66,6 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         setContentView(R.layout.activity_date_graphs);
         super.onCreateToolbar(getString(R.string.date_wise_graphs));
         super.onCreateDrawer();
-        first_time = true;
         //data retrieval pre-processing
         LocalDate toDate = LocalDate.now().plusDays(1);
         LocalDate fromDate = LocalDate.now();
@@ -78,7 +74,7 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         AsyncFetch database = new AsyncFetch(this);
         database.setOnResponse(this);
         database.execute(URL);
-
+        //chart setup
         anyChartView1 = findViewById(R.id.chartView1);
         cartesian = AnyChart.line();
         set1 = Set.instantiate();
@@ -90,7 +86,7 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         cartesian.xAxis(0).title("Time");
         cartesian.yAxis(0).title("ppm");
         anyChartView1.setChart(cartesian);
-
+        //buttons setup
         Button nh3_button = findViewById(R.id.buttonNH3);
         nh3_button.isPressed();
         Button co_button = findViewById(R.id.buttonCO);
@@ -99,92 +95,36 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         Button ch4_button = findViewById(R.id.buttonCH4);
         Button dust_button = findViewById(R.id.buttonDUST);
 
-        nh3_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-//                if(first_time){
-                    processGraphs(1);
-//                }else{
-//                    updateGraphs(1);
-//                }
-            }
-        });
-        co_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-//                if(first_time){
-                    processGraphs(2);
-//                }else{
-//                    updateGraphs(2);
-//                }
-            }
-        });
-        no2_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-//                if(first_time){
-                    processGraphs(3);
-//                }else{
-//                    updateGraphs(3);
-//                }
-            }
-        });
-        so2_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-//                if(first_time){
-                    processGraphs(4);
-//                }else{
-//                    updateGraphs(4);
-//                }
-            }
-        });
-        ch4_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-//                if(first_time){
-                    processGraphs(5);
-//                }else{
-//                    updateGraphs(5);
-//                }
-            }
-        });
-        dust_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-//                if(first_time){
-                    processGraphs(6);
-//                }else{
-//                    updateGraphs(6);
-//                }
-            }
-        });
-
-        edittext= (EditText) findViewById(R.id.dateText);
-        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-            }
-
+        nh3_button.setOnClickListener(v -> processGraphs(1));
+        co_button.setOnClickListener(v -> processGraphs(2));
+        no2_button.setOnClickListener(v -> processGraphs(3));
+        so2_button.setOnClickListener(v -> processGraphs(4));
+        ch4_button.setOnClickListener(v -> processGraphs(5));
+        dust_button.setOnClickListener(v -> processGraphs(6));
+        //date picker setup
+        String myFormat = "yyyy-MM-dd";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String queryDate = sdf.format(myCalendar.getTime());
+        edittext= findViewById(R.id.dateText);
+        edittext.setText(queryDate);
+        DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateLabel();
         };
-        edittext.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                new DatePickerDialog(DateGraphsActivity.this, date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
+        edittext.setOnClickListener(v -> new DatePickerDialog(DateGraphsActivity.this, date, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateLabel() {
-        first_time = false;
         String myFormat = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         String queryDate = sdf.format(myCalendar.getTime());
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate fromDate = LocalDate.parse(queryDate, dtf);;
+        LocalDate fromDate = LocalDate.parse(queryDate, dtf);
         LocalDate toDate = fromDate.plusDays(1);
         edittext.setText(sdf.format(myCalendar.getTime()));
         URL2 = "http://111.68.101.14/db/data.php?node_id=2&from=" + fromDate + "&to=" + toDate;
@@ -239,18 +179,14 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         }
         Log.e("Json Response assigned", "Lists made ");
             processGraphs(1);
-//        if(first_time){
-//        }else{
-//            updateGraphs(1);
-//        }
     }
 
     public void processGraphs(int choice){
-        Log.e("Processs", "Lists made ");
+        Log.e("Process", "Lists made ");
 
         if(choice==1){
             APIlib.getInstance().setActiveAnyChartView(anyChartView1);
-            cartesian.title("Trend of Ammonia Today");
+            cartesian.title("Trend of Ammonia");
             set1.data(seriesDataNh3);
             Line series1;
             Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
@@ -259,7 +195,7 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         }
         if(choice==2){
             APIlib.getInstance().setActiveAnyChartView(anyChartView1);
-            cartesian.title("Trend of Carbon Monoxide Today");
+            cartesian.title("Trend of Carbon Monoxide");
             set1.data(seriesDataCo);
             Line series1;
             Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
@@ -268,7 +204,7 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         }
         if(choice==3){
             APIlib.getInstance().setActiveAnyChartView(anyChartView1);
-            cartesian.title("Trend of Nitrogen Dioxide Today");
+            cartesian.title("Trend of Nitrogen Dioxide");
             set1.data(seriesDataNo2);
             Line series1;
             Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
@@ -277,7 +213,7 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         }
         if(choice==4){
             APIlib.getInstance().setActiveAnyChartView(anyChartView1);
-            cartesian.title("Trend of Carbon Dioxide Today");
+            cartesian.title("Trend of Carbon Dioxide");
             set1.data(seriesDataSo2);
             Line series1;
             Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
@@ -286,7 +222,7 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         }
         if(choice==5){
             APIlib.getInstance().setActiveAnyChartView(anyChartView1);
-            cartesian.title("Trend of Methane Today");
+            cartesian.title("Trend of Methane");
             set1.data(seriesDataCh4);
             Line series1;
             Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
@@ -294,7 +230,7 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
             series1.name("CH4");
         }if(choice==6){
             APIlib.getInstance().setActiveAnyChartView(anyChartView1);
-            cartesian.title("Trend of Dust Particles Today");
+            cartesian.title("Trend of Dust Particles");
             set1.data(seriesDataDust);
             Line series1;
             Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");

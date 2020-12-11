@@ -25,7 +25,6 @@ import java.util.Objects;
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-    protected Context mContext;
     public Toolbar toolbar;
     boolean doubleBackToExitPressedOnce = true;
     public Context getNAQMContext() {
@@ -101,12 +100,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 finishAffinity();
             }
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce=true;
-                }
-            }, 2000);
+            new Handler().postDelayed(() -> doubleBackToExitPressedOnce=true, 2000);
         }
     }
 }
