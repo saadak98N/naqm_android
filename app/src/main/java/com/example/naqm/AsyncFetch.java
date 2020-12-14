@@ -76,11 +76,11 @@ public class AsyncFetch extends AsyncTask<String, Void, List<Air>> {
                 data.setId(Integer.parseInt(jsonObj.getString("id")));
                 String s = jsonObj.getString("timestamp");
                 List<String> dateAndTime = Arrays.asList(s.split(" "));
-                Log.e("parseData", "Id made: "+ dateAndTime.get(0)+ " " +dateAndTime.get(1));
-//                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-//                SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm:ss");
                 data.setDate(dateAndTime.get(0));
-                data.setTime(dateAndTime.get(1));
+                String t = dateAndTime.get(1);
+                String substring = t.substring(0, t.length() - 3);
+                data.setTime(substring);
+                Log.e("parseData", "Id made: "+ dateAndTime.get(0)+ " " + substring);
                 data.setNh3(Double.parseDouble(jsonObj.getString("nh3")));
                 data.setCo(Double.parseDouble(jsonObj.getString("co")));
                 data.setNo2(Double.parseDouble(jsonObj.getString("no2")));

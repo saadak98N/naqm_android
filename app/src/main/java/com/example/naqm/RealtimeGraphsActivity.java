@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
@@ -24,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.onResponse {
-    public List<Air> dataFromDb;
+    public List<Air> dataFromDb = new ArrayList<>();
     public List<String> date = new ArrayList<>();
     public List<String> time = new ArrayList<>();
     public List<Double> nh3 = new ArrayList<>();
@@ -70,10 +71,12 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
         cartesian.animation(true);
         cartesian.xScroller(true);
         OrdinalZoom xZoom = cartesian.xZoom();
-        xZoom.setToPointsCount(50, false, null);
+        xZoom.setToPointsCount(1500, false, null);
         xZoom.getStartRatio();
         cartesian.xAxis(0).title("Time");
         cartesian.yAxis(0).title("ppm");
+        cartesian.xScale("ordinal");
+        cartesian.yScale("linear");
         anyChartView1.setChart(cartesian);
 
         Button nh3_button = findViewById(R.id.buttonNH3);
@@ -92,6 +95,10 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
         dust_button.setOnClickListener(v -> processGraphs(6));
     }
     public void onResponse(List<Air> object) {
+        if(object.size()==0){
+            Toast.makeText(this, "No data available!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Collections.reverse(object);
         dataFromDb = object;
         Log.e("Json Response assigned", "Json Response "+ object.get(0).getTime() +" lol "+ object.get(0).getDate());
@@ -121,14 +128,19 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
 
     public void processGraphs(int choice){
         Log.e("Process", "Lists made ");
-
+        if(dataFromDb.size()==0){
+            Toast.makeText(this, "No data available!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(choice==1){
             APIlib.getInstance().setActiveAnyChartView(anyChartView1);
             cartesian.title("Trend of Ammonia Today");
+            cartesian.yScale().ticks().interval(0.01d);
             set1.data(seriesDataNh3);
             Line series1;
             Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
             series1 = cartesian.line(series1Data);
+            series1.stroke("Orange");
             series1.name("NH3");
         }
         if(choice==2){
@@ -138,6 +150,7 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
             Line series1;
             Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
             series1 = cartesian.line(series1Data);
+            series1.stroke("Brown");
             series1.name("CO");
         }
         if(choice==3){
@@ -147,6 +160,7 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
             Line series1;
             Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
             series1 = cartesian.line(series1Data);
+            series1.stroke("Pink");
             series1.name("NO2");
         }
         if(choice==4){
@@ -156,6 +170,7 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
             Line series1;
             Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
             series1 = cartesian.line(series1Data);
+            series1.stroke("Grey");
             series1.name("CO2");
         }
         if(choice==5){
@@ -165,6 +180,7 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
             Line series1;
             Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
             series1 = cartesian.line(series1Data);
+            series1.stroke("Purple");
             series1.name("CH4");
         }if(choice==6){
             APIlib.getInstance().setActiveAnyChartView(anyChartView1);
@@ -173,6 +189,7 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
             Line series1;
             Mapping series1Data = set1.mapAs("{ x: 'x', value: 'value' }");
             series1 = cartesian.line(series1Data);
+            series1.stroke("Black");
             series1.name("Dust");
         }
     }
