@@ -19,4 +19,6 @@
     <string name="methane_pmm">Methane/pmm</string>
     <string name="carbon_dioxide_pmm">Carbon Dioxide/pmm</string>
     <string name="co2">CO2</string>
+    <string name="ok">Got it!</string>
+    <string name="question_mark">"?"</string>
 </resources>

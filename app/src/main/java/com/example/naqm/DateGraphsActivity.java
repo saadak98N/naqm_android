@@ -1,5 +1,6 @@
 package com.example.naqm;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import dmax.dialog.SpotsDialog;
+
 public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onResponse {
     public List<Air> dataFromDb = new ArrayList<>();
     public List<String> date = new ArrayList<>();
@@ -59,6 +62,7 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
     Set set1;
     Cartesian cartesian;
 
+    AlertDialog d;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -67,6 +71,12 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         setContentView(R.layout.activity_date_graphs);
         super.onCreateToolbar(getString(R.string.date_wise_graphs));
         super.onCreateDrawer();
+        SpotsDialog.Builder dialog = new SpotsDialog.Builder();
+        dialog.setContext(this);
+        dialog.setTheme(R.style.Progress_dialog);
+        dialog.setCancelable(false);
+        d = dialog.build();
+        d.show();
         //data retrieval pre-processing
         LocalDate toDate = LocalDate.now().plusDays(1);
         LocalDate fromDate = LocalDate.now();
@@ -123,6 +133,7 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateLabel() {
+        d.show();
         String myFormat = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         String queryDate = sdf.format(myCalendar.getTime());
@@ -185,7 +196,8 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
             seriesDataDust.add(new ValueDataEntry(a.getTime(), a.getDust()));
         }
         Log.e("Json Response assigned", "Lists made ");
-            processGraphs(1);
+        processGraphs(1);
+        d.dismiss();
     }
 
     public void processGraphs(int choice){

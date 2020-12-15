@@ -1,5 +1,6 @@
 package com.example.naqm;
 
+import android.app.AlertDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import dmax.dialog.SpotsDialog;
 
 public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.onResponse {
     public List<Air> dataFromDb = new ArrayList<>();
@@ -48,6 +51,8 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
     Set set1;
     Cartesian cartesian;
 
+    AlertDialog d;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +60,12 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
         setContentView(R.layout.activity_realtime_graphs);
         super.onCreateToolbar(getString(R.string.real_time_graphs));
         super.onCreateDrawer();
-
+        SpotsDialog.Builder dialog = new SpotsDialog.Builder();
+        dialog.setContext(this);
+        dialog.setTheme(R.style.Progress_dialog);
+        dialog.setCancelable(false);
+        d = dialog.build();
+        d.show();
         //data retrieval pre-processing
         LocalDate toDate = LocalDate.now().plusDays(1);
         LocalDate fromDate = LocalDate.now();
@@ -124,6 +134,7 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
         }
         Log.e("Json Response assigned", "Lists made ");
         processGraphs(1);
+        d.dismiss();
     }
 
     public void processGraphs(int choice){

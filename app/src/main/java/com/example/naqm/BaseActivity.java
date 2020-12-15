@@ -72,17 +72,14 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id==R.id.nav_item_one){
-            Toast.makeText(this, "Clicked item one", Toast.LENGTH_SHORT).show();
             Intent myIntent = new Intent(this, HomepageActivity.class);
             startActivity(myIntent);
         }
         if(id==R.id.nav_item_two){
-            Toast.makeText(this, "Clicked item two", Toast.LENGTH_SHORT).show();
             Intent myIntent = new Intent(this, RealtimeGraphsActivity.class);
             startActivity(myIntent);
         }
         if(id==R.id.nav_item_three){
-            Toast.makeText(this, "Clicked item three", Toast.LENGTH_SHORT).show();
             Intent myIntent = new Intent(this, DateGraphsActivity.class);
             startActivity(myIntent);
         }

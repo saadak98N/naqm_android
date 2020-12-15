@@ -8,7 +8,6 @@
 
 
     <!-- Optional, fill the rest of your background with a color or gradient, use transparent if you only want the border to be displayed-->
-    <gradient android:startColor="@android:color/holo_red_dark"
-        android:endColor="@android:color/holo_red_dark"
-        android:angle="90"/>
+    <gradient android:startColor="@color/light_red"
+        android:endColor="@color/light_red"/>
 </shape>

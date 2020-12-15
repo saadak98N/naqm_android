@@ -1,9 +1,13 @@
 package com.example.naqm;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -11,6 +15,7 @@ import androidx.annotation.RequiresApi;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 public class HomepageActivity extends BaseActivity implements AsyncFetch.onResponse{
     public String date;
@@ -32,6 +37,9 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
     public TextView dust_text;
     public TextView ch4_text;
     public TextView timestamp_text;
+
+    public Dialog settingsDialog;
+    @SuppressLint("InflateParams")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +54,16 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
         dust_text = findViewById(R.id.dust_reading);
         ch4_text = findViewById(R.id.methane_reading);
         timestamp_text = findViewById(R.id.update_date);
+
+        Button help_button = findViewById(R.id.help_button);
+        help_button.setOnClickListener(v -> {
+            settingsDialog = new Dialog(this);
+            Objects.requireNonNull(settingsDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+            settingsDialog.setContentView(getLayoutInflater().inflate(R.layout.dialog_range_table, null));
+            settingsDialog.setCancelable(false);
+            settingsDialog.setCanceledOnTouchOutside(false);
+            settingsDialog.show();
+        });
 
         LocalDate toDate = LocalDate.now().plusDays(1);
         LocalDate fromDate = LocalDate.now();
@@ -141,5 +159,9 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
         ch4_text.setText(Double.toString(ch4));
         dust_text.setText(Integer.toString(dust));
         timestamp_text.setText(timestamp);
+    }
+
+    public void dismissListener(View view) {
+        settingsDialog.dismiss();
     }
 }

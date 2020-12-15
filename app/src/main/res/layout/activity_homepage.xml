@@ -216,19 +216,36 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_below="@id/five_six"
-                android:layout_marginTop="10sp"
                 android:paddingStart="5sp"
                 android:paddingEnd="5sp"
-                android:background="@drawable/primary_rect"
                 android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:layout_marginTop="10sp"
+                    android:background="@drawable/primary_rect"
                     android:id="@+id/update_date"
                     android:layout_width="wrap_content"
+                    android:paddingStart="8sp"
+                    android:paddingEnd="8sp"
                     android:textSize="12sp"
+                    android:paddingBottom="2sp"
+                    android:paddingTop="1sp"
                     android:textColor="@color/black"
                     android:text="Last Update: 12/22/2020"
                     android:layout_height="wrap_content"/>
+                <Button
+                    android:layout_marginTop="10sp"
+                    android:id="@+id/help_button"
+                    android:layout_width="20sp"
+                    android:layout_marginStart="5sp"
+                    android:textSize="12sp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:background="@drawable/button_help"
+                    android:layout_toEndOf="@id/update_date"
+                    android:onClick="dismissListener"
+                    android:text="@string/question_mark"
+                    android:layout_height="20sp"/>
             </RelativeLayout>
         </RelativeLayout>
         <com.google.android.material.navigation.NavigationView
