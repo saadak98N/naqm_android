@@ -79,9 +79,9 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
         cartesian = AnyChart.line();
         set1 = Set.instantiate();
         cartesian.animation(true);
-        cartesian.xScroller(true);
+        cartesian.xScroller(true).container();
         OrdinalZoom xZoom = cartesian.xZoom();
-        xZoom.setToPointsCount(1500, false, null);
+        xZoom.setToPointsCount(30, false, null);
         xZoom.getStartRatio();
         cartesian.xAxis(0).title("Time");
         cartesian.yAxis(0).title("ppm");

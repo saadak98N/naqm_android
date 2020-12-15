@@ -90,7 +90,7 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
         cartesian = AnyChart.line();
         set1 = Set.instantiate();
         cartesian.animation(true);
-        cartesian.xScroller(true);
+        cartesian.xScroller(true).container();
         OrdinalZoom xZoom = cartesian.xZoom();
         xZoom.setToPointsCount(1500, false, null);
         xZoom.getStartRatio();
