@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
@@ -74,6 +75,10 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
         database.execute(URL);
     }
     public void onResponse(List<Air> object) {
+        if(object.size()==0){
+            Toast.makeText(this, "No data available!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Log.e("Json Response assigned", "Json Response "+ object.get(0).getTime() +" lol "+ object.get(0).getDate());
         Air a = object.get(0);
         date = a.getDate();

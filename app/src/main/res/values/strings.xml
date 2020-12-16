@@ -21,4 +21,6 @@
     <string name="co2">CO2</string>
     <string name="ok">Got it!</string>
     <string name="question_mark">"?"</string>
+    <string name="_00">00</string>
+    <string name="default_date">Last Update: 01/01/1970</string>
 </resources>
