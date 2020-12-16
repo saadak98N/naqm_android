@@ -106,6 +106,7 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
     }
     public void onResponse(List<Air> object) {
         if(object.size()==0){
+            d.dismiss();
             Toast.makeText(this, "No data available!", Toast.LENGTH_SHORT).show();
             return;
         }

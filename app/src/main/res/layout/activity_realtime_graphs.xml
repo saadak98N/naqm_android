@@ -25,7 +25,7 @@
             <com.anychart.AnyChartView
                 android:id="@+id/chartView1"
                 android:layout_width="match_parent"
-                android:layout_height="500sp"
+                android:layout_height="550sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -39,84 +39,66 @@
             android:layout_width="match_parent"
             android:layout_below="@+id/chartLayout"
             android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/buttonNH3"
-                android:layout_width="75sp"
-                android:layout_height="75sp"
-                android:background="@drawable/button_nh3"
-                android:text="@string/nh3"
-                android:layout_marginTop="20sp"
-                android:layout_centerInParent="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="20sp"
-                android:textColor="@color/white"
-                android:textAlignment="center"/>
-            <Button
-                android:id="@+id/buttonCO"
-                android:layout_width="75sp"
-                android:layout_height="75sp"
-                android:background="@drawable/button_co"
-                android:text="@string/co"
-                android:layout_marginTop="20sp"
-                android:layout_centerInParent="true"
-                android:layout_alignParentTop="true"
-                android:textColor="@color/white"
-                android:textAlignment="center"/>
-            <Button
-                android:id="@+id/buttonNO2"
-                android:layout_width="75sp"
-                android:layout_height="75sp"
-                android:background="@drawable/button_no2"
-                android:text="@string/no2"
-                android:layout_marginTop="20sp"
-                android:layout_marginEnd="20sp"
-                android:layout_centerInParent="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:textColor="@color/white"
-                android:textAlignment="center"/>
-            <Button
-                android:id="@+id/buttonSO2"
-                android:layout_width="75sp"
-                android:layout_height="75sp"
-                android:background="@drawable/button_so2"
-                android:text="@string/co2"
-                android:layout_marginTop="20sp"
-                android:layout_marginBottom="20sp"
-                android:layout_marginStart="20sp"
-                android:layout_centerInParent="true"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:textColor="@color/white"
-                android:textAlignment="center"/>
-            <Button
-                android:id="@+id/buttonCH4"
-                android:layout_width="75sp"
-                android:layout_height="75sp"
-                android:layout_marginBottom="20sp"
-                android:background="@drawable/button_ch4"
-                android:text="@string/ch4"
-                android:layout_marginTop="20sp"
-                android:layout_centerInParent="true"
-                android:layout_alignParentBottom="true"
-                android:textColor="@color/white"
-                android:textAlignment="center"/>
-            <Button
-                android:id="@+id/buttonDUST"
-                android:layout_width="75sp"
-                android:layout_height="75sp"
-                android:background="@drawable/button_dust"
-                android:text="@string/dust"
-                android:layout_marginTop="20sp"
-                android:layout_marginEnd="20sp"
-                android:layout_marginBottom="20sp"
-                android:layout_centerInParent="true"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:textColor="@color/white"
-                android:textAlignment="center"/>
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/buttonNH3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/nh3"
+                    android:background="@drawable/buttons_for_gases"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"/>
+                <Button
+                    android:id="@+id/buttonCO"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/co"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttons_for_gases"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"/>
+                <Button
+                    android:id="@+id/buttonNO2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no2"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttons_for_gases"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"/>
+                <Button
+                    android:id="@+id/buttonSO2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/co2"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttons_for_gases"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"/>
+                <Button
+                    android:id="@+id/buttonCH4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ch4"
+                    android:background="@drawable/buttons_for_gases"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"/>
+                <Button
+                    android:id="@+id/buttonDUST"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dust"
+                    android:background="@drawable/buttons_for_gases"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"/>
+            </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
 
