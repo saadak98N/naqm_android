@@ -126,7 +126,7 @@ public class DateGraphsActivity extends BaseActivity implements AsyncFetch.onRes
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             updateLabel();
         };
-        edittext.setOnClickListener(v -> new DatePickerDialog(DateGraphsActivity.this, date, myCalendar
+        edittext.setOnClickListener(v -> new DatePickerDialog(DateGraphsActivity.this, R.style.DialogTheme ,date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show());
     }
