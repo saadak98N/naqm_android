@@ -17,6 +17,9 @@ import androidx.annotation.RequiresApi;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class HomepageActivity extends BaseActivity implements AsyncFetch.onResponse{
     public String date;
@@ -40,6 +43,8 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
     public TextView timestamp_text;
 
     public Dialog settingsDialog;
+
+    ScheduledExecutorService scheduleTaskExecutor;
     @SuppressLint("InflateParams")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -96,6 +101,7 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
 
         colorBoxes();
         setTextBoxes();
+        startRealtime();
     }
 
     public void colorBoxes(){
@@ -168,5 +174,28 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
 
     public void dismissListener(View view) {
         settingsDialog.dismiss();
+    }
+
+    public void startRealtime(){
+        scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
+        super.setService(scheduleTaskExecutor);
+        // This schedule a runnable task every 5 minutes
+        scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            public void run() {
+                getData5minutes();
+            }
+        }, 5*60, 5*60, TimeUnit.SECONDS);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void getData5minutes(){
+        LocalDate toDate = LocalDate.now().plusDays(1);
+        LocalDate fromDate = LocalDate.now();
+        Log.e("Json Response BK", "running bk ");
+        String URL = "http://111.68.101.14/db/data.php?node_id=2&from=" + fromDate + "&to=" + toDate;
+        Log.e("Url", URL);
+        AsyncFetch database = new AsyncFetch(this);
+        database.setOnResponse(this);
+        database.execute(URL);
     }
 }

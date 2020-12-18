@@ -20,6 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
+import java.util.concurrent.ScheduledExecutorService;
 
 @SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,6 +28,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle drawerToggle;
     public Toolbar toolbar;
     boolean doubleBackToExitPressedOnce = true;
+    private ScheduledExecutorService myTask;
+
     public Context getNAQMContext() {
         return getBaseContext();
     }
@@ -99,5 +102,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             }
             new Handler().postDelayed(() -> doubleBackToExitPressedOnce=true, 2000);
         }
+    }
+
+    public void setService(ScheduledExecutorService scheduleTaskExecutor){
+        myTask = scheduleTaskExecutor;
     }
 }

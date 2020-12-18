@@ -155,7 +155,7 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
             series1.stroke("Orange");
             series1.name("NH3");
         }
-        if(choice==2){
+        else if(choice==2){
             APIlib.getInstance().setActiveAnyChartView(anyChartView1);
             cartesian.title("Trend of Carbon Monoxide Today");
             set1.data(seriesDataCo);
@@ -165,7 +165,7 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
             series1.stroke("Brown");
             series1.name("CO");
         }
-        if(choice==3){
+        else if(choice==3){
             APIlib.getInstance().setActiveAnyChartView(anyChartView1);
             cartesian.title("Trend of Nitrogen Dioxide Today");
             set1.data(seriesDataNo2);
@@ -175,7 +175,7 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
             series1.stroke("Pink");
             series1.name("NO2");
         }
-        if(choice==4){
+        else if(choice==4){
             APIlib.getInstance().setActiveAnyChartView(anyChartView1);
             cartesian.title("Trend of Carbon Dioxide Today");
             set1.data(seriesDataSo2);
@@ -185,7 +185,7 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
             series1.stroke("Grey");
             series1.name("CO2");
         }
-        if(choice==5){
+        else if(choice==5){
             APIlib.getInstance().setActiveAnyChartView(anyChartView1);
             cartesian.title("Trend of Methane Today");
             set1.data(seriesDataCh4);
@@ -194,7 +194,8 @@ public class RealtimeGraphsActivity extends BaseActivity implements AsyncFetch.o
             series1 = cartesian.line(series1Data);
             series1.stroke("Purple");
             series1.name("CH4");
-        }if(choice==6){
+        }
+        else if(choice==6){
             APIlib.getInstance().setActiveAnyChartView(anyChartView1);
             cartesian.title("Trend of Dust Particles Today");
             set1.data(seriesDataDust);
