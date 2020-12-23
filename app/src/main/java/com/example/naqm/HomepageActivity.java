@@ -34,9 +34,9 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
     public int humidity;
     public String timestamp;
 
-    public TextView nh3_text;
+    public TextView temp_text;
     public TextView co_text;
-    public TextView no2_text;
+    public TextView humidity_text;
     public TextView so2_text;
     public TextView dust_text;
     public TextView ch4_text;
@@ -53,9 +53,9 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
         setContentView(R.layout.activity_homepage);
         super.onCreateToolbar(getString(R.string.home));
         super.onCreateDrawer();
-        nh3_text = findViewById(R.id.ammonia_reading);
+        temp_text = findViewById(R.id.temperature_reading);
         co_text = findViewById(R.id.carbon_monoxide_reading);
-        no2_text = findViewById(R.id.nitrogen_dioxide_reading);
+        humidity_text = findViewById(R.id.humidity_reading);
         so2_text = findViewById(R.id.sulphur_dioxide_reading);
         dust_text = findViewById(R.id.dust_reading);
         ch4_text = findViewById(R.id.methane_reading);
@@ -105,20 +105,10 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
     }
 
     public void colorBoxes(){
-        RelativeLayout layout1 = findViewById(R.id.ammonia);
         RelativeLayout layout2 = findViewById(R.id.carbon_monoxide);
-        RelativeLayout layout3 = findViewById(R.id.nitrogen_dioxide);
         RelativeLayout layout4 = findViewById(R.id.sulphur_dioxide);
         RelativeLayout layout5 = findViewById(R.id.methane);
         RelativeLayout layout6 = findViewById(R.id.dust);
-
-        if(nh3 < 200.0){
-            layout1.setBackgroundResource(R.drawable.green_rect);
-        }else if (nh3 <800.0){
-            layout1.setBackgroundResource(R.drawable.yellow_rect);
-        }else{
-            layout1.setBackgroundResource(R.drawable.red_rect);
-        }
 
         if(co < 4.4){
             layout2.setBackgroundResource(R.drawable.green_rect);
@@ -126,14 +116,6 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
             layout2.setBackgroundResource(R.drawable.yellow_rect);
         }else{
             layout2.setBackgroundResource(R.drawable.red_rect);
-        }
-
-        if(no2 < 0.053){
-            layout3.setBackgroundResource(R.drawable.green_rect);
-        }else if (no2 <0.36){
-            layout3.setBackgroundResource(R.drawable.yellow_rect);
-        }else{
-            layout3.setBackgroundResource(R.drawable.red_rect);
         }
 
         if(so2 < 1000){
@@ -163,9 +145,9 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
 
     @SuppressLint("SetTextI18n")
     public void setTextBoxes(){
-        nh3_text.setText(Double.toString(nh3));
+        temp_text.setText(Integer.toString(temperature));
         co_text.setText(Double.toString(co));
-        no2_text.setText(Double.toString(no2));
+        humidity_text.setText(Integer.toString(humidity));
         so2_text.setText(Integer.toString(so2));
         ch4_text.setText(Double.toString(ch4));
         dust_text.setText(Integer.toString(dust));

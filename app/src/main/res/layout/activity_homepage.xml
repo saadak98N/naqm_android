@@ -25,7 +25,7 @@
                 android:orientation="horizontal">
                 <RelativeLayout android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:id="@+id/ammonia"
+                    android:background="@drawable/stroke_rect"
                     android:layout_weight="1" >
                     <TextView
                         android:layout_width="wrap_content"
@@ -34,12 +34,14 @@
                         android:layout_marginBottom="20sp"
                         android:textSize="15sp"
                         android:textColor="@color/black"
-                        android:text="@string/ammonia_ppm"
+                        android:text="@string/temperature_c"
                         android:layout_height="wrap_content"/>
                     <TextView
                         android:layout_width="match_parent"
-                        android:id="@+id/ammonia_reading"
-                        android:layout_centerInParent="true"
+                        android:id="@+id/temperature_reading"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="20sp"
+                        android:layout_centerHorizontal="true"
                         android:textColor="@color/black"
                         android:text="@string/_00"
                         app:autoSizeTextType="uniform"
@@ -50,11 +52,66 @@
                         android:paddingStart="10sp"
                         app:autoSizeStepGranularity="2sp"
                         android:layout_height="100sp"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/temperature"
+                        android:layout_marginStart="20sp"
+                        android:layout_marginEnd="20sp"
+                        android:background="@drawable/green_rect"
+                        android:layout_marginTop="5sp"
+                        android:layout_below="@id/temperature_reading"
+                        android:layout_height="12sp"/>
                 </RelativeLayout>
 
                 <RelativeLayout android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:id="@+id/carbon_monoxide"
+                    android:background="@drawable/stroke_rect"
+                    android:layout_weight="1" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="20sp"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:text="@string/humidity"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/humidity_reading"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="20sp"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/black"
+                        android:text="@string/_00"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeMaxTextSize="100sp"
+                        android:textAlignment="center"
+                        android:paddingEnd="10sp"
+                        android:paddingStart="10sp"
+                        app:autoSizeStepGranularity="2sp"
+                        android:layout_height="100sp"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/humidity"
+                        android:layout_marginStart="20sp"
+                        android:layout_marginEnd="20sp"
+                        android:background="@drawable/green_rect"
+                        android:layout_marginTop="5sp"
+                        android:layout_below="@id/humidity_reading"
+                        android:layout_height="12sp"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="fill_parent"
+                android:layout_height="200sp"
+                android:id="@+id/three_four"
+                android:layout_below="@+id/one_two"
+                android:orientation="horizontal">
+                <RelativeLayout android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/stroke_rect"
                     android:layout_weight="1" >
                     <TextView
                         android:layout_width="wrap_content"
@@ -68,42 +125,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:id="@+id/carbon_monoxide_reading"
-                        android:layout_centerInParent="true"
-                        android:textColor="@color/black"
-                        android:text="@string/_00"
-                        app:autoSizeTextType="uniform"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeMaxTextSize="100sp"
-                        android:textAlignment="center"
-                        android:paddingEnd="10sp"
-                        android:paddingStart="10sp"
-                        app:autoSizeStepGranularity="2sp"
-                        android:layout_height="100sp"/>
-                </RelativeLayout>
-            </LinearLayout>
-
-            <LinearLayout android:layout_width="fill_parent"
-                android:layout_height="200sp"
-                android:id="@+id/three_four"
-                android:layout_below="@+id/one_two"
-                android:orientation="horizontal">
-                <RelativeLayout android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/nitrogen_dioxide"
-                    android:layout_weight="1" >
-                    <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="20sp"
                         android:layout_centerHorizontal="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="20sp"
-                        android:textSize="15sp"
-                        android:textColor="@color/black"
-                        android:text="@string/nitrogen_dioxide_pmm"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:id="@+id/nitrogen_dioxide_reading"
-                        android:layout_centerInParent="true"
                         android:textColor="@color/black"
                         android:text="@string/_00"
                         app:autoSizeTextType="uniform"
@@ -114,11 +138,20 @@
                         android:paddingStart="10sp"
                         app:autoSizeStepGranularity="2sp"
                         android:layout_height="100sp"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/carbon_monoxide"
+                        android:layout_marginStart="20sp"
+                        android:layout_marginEnd="20sp"
+                        android:background="@drawable/green_rect"
+                        android:layout_marginTop="5sp"
+                        android:layout_below="@id/carbon_monoxide_reading"
+                        android:layout_height="12sp"/>
                 </RelativeLayout>
 
                 <RelativeLayout android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:id="@+id/sulphur_dioxide"
+                    android:background="@drawable/stroke_rect"
                     android:layout_weight="1" >
                     <TextView
                         android:layout_width="wrap_content"
@@ -132,7 +165,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:id="@+id/sulphur_dioxide_reading"
-                        android:layout_centerInParent="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="20sp"
+                        android:layout_centerHorizontal="true"
                         android:textColor="@color/black"
                         android:text="@string/_00"
                         app:autoSizeTextType="uniform"
@@ -143,6 +178,15 @@
                         android:paddingStart="10sp"
                         app:autoSizeStepGranularity="2sp"
                         android:layout_height="100sp"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/sulphur_dioxide"
+                        android:layout_marginStart="20sp"
+                        android:layout_marginEnd="20sp"
+                        android:background="@drawable/green_rect"
+                        android:layout_marginTop="5sp"
+                        android:layout_below="@id/sulphur_dioxide_reading"
+                        android:layout_height="12sp"/>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -153,7 +197,7 @@
                 android:orientation="horizontal">
                 <RelativeLayout android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:id="@+id/methane"
+                    android:background="@drawable/stroke_rect"
                     android:layout_weight="1" >
                     <TextView
                         android:layout_width="wrap_content"
@@ -167,7 +211,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:id="@+id/methane_reading"
-                        android:layout_centerInParent="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="20sp"
+                        android:layout_centerHorizontal="true"
                         android:textColor="@color/black"
                         android:text="@string/_00"
                         app:autoSizeTextType="uniform"
@@ -178,11 +224,20 @@
                         android:paddingStart="10sp"
                         app:autoSizeStepGranularity="2sp"
                         android:layout_height="100sp"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/methane"
+                        android:layout_marginStart="20sp"
+                        android:layout_marginEnd="20sp"
+                        android:background="@drawable/green_rect"
+                        android:layout_marginTop="5sp"
+                        android:layout_below="@id/methane_reading"
+                        android:layout_height="12sp"/>
                 </RelativeLayout>
 
                 <RelativeLayout android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:id="@+id/dust"
+                    android:background="@drawable/stroke_rect"
                     android:layout_weight="1" >
                     <TextView
                         android:layout_width="wrap_content"
@@ -196,7 +251,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:id="@+id/dust_reading"
-                        android:layout_centerInParent="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="20sp"
+                        android:layout_centerHorizontal="true"
                         android:textColor="@color/black"
                         android:text="@string/_00"
                         app:autoSizeTextType="uniform"
@@ -207,6 +264,15 @@
                         android:paddingStart="10sp"
                         app:autoSizeStepGranularity="2sp"
                         android:layout_height="100sp"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/dust"
+                        android:layout_marginStart="20sp"
+                        android:layout_marginEnd="20sp"
+                        android:background="@drawable/green_rect"
+                        android:layout_marginTop="5sp"
+                        android:layout_below="@id/dust_reading"
+                        android:layout_height="12sp"/>
                 </RelativeLayout>
             </LinearLayout>
             <RelativeLayout
