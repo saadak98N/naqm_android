@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "825709473128",
+    "project_id": "indoor-air-quality-feb00",
+    "storage_bucket": "indoor-air-quality-feb00.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825709473128:android:82404db99a02d1a45e7add",
+        "android_client_info": {
+          "package_name": "com.example.naqm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825709473128-0maipd4anpclg3fqt0fda9l5e8iedgu8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSQaCrc62L3yx3oPCwN3NgyHWHsjVuLQQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825709473128-0maipd4anpclg3fqt0fda9l5e8iedgu8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
