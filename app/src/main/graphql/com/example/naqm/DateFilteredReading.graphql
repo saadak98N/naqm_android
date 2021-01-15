@@ -1,0 +1,17 @@
+query DateFilteredReading($start: timestamptz!, $end: timestamptz!) {
+  naqm_AirReading(where: {timestamp: {_lte: $end, _gte: $start}}) {
+    ch4
+    co
+    dust
+    humidity
+    id
+    latitude
+    longitude
+    nh3
+    no2
+    node_id
+    so2
+    temperature
+    timestamp
+  }
+}

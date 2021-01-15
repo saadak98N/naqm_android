@@ -1,0 +1,18 @@
+subscription LatestReading{
+  naqm_AirReading (limit: 1, order_by: [{timestamp: desc}])
+  {
+    ch4
+    co
+    dust
+    humidity
+    id
+    latitude
+    longitude
+    nh3
+    no2
+    node_id
+    so2
+    temperature
+    timestamp
+  }
+}

@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id "com.apollographql.apollo"
 }
 
 android {
@@ -27,6 +28,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    apollo {
+        customTypeMapping = [
+                "timestampz" : "java.time.LocalDate"
+        ]
+    }
+}
+apollo {
+    customTypeMapping = [
+            "timestampz" : "java.time.LocalDate"
+    ]
 }
 
 dependencies {
@@ -45,4 +56,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:26.2.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
+    implementation "com.apollographql.apollo:apollo-runtime:2.4.0"
+    implementation 'com.apollographql.apollo:apollo-rx2-support:2.4.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 }

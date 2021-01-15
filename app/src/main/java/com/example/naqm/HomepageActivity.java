@@ -1,6 +1,7 @@
 package com.example.naqm;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,14 +15,23 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
-import java.time.LocalDate;
+import com.apollographql.apollo.ApolloClient;
+import com.apollographql.apollo.ApolloSubscriptionCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+import com.apollographql.apollo.subscription.WebSocketSubscriptionTransport;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
-public class HomepageActivity extends BaseActivity implements AsyncFetch.onResponse{
+import dmax.dialog.SpotsDialog;
+import okhttp3.OkHttpClient;
+
+public class HomepageActivity extends BaseActivity{
     public String date;
     public String time;
     public Double nh3;
@@ -42,9 +52,16 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
     public TextView ch4_text;
     public TextView timestamp_text;
 
-    public Dialog settingsDialog;
+    RelativeLayout layout2;
+    RelativeLayout layout4;
+    RelativeLayout layout5;
+    RelativeLayout layout6;
 
-    ScheduledExecutorService scheduleTaskExecutor;
+    public Dialog settingsDialog;
+    AlertDialog d;
+
+    ApolloClient myApolloClient;
+
     @SuppressLint("InflateParams")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -53,6 +70,13 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
         setContentView(R.layout.activity_homepage);
         super.onCreateToolbar(getString(R.string.home));
         super.onCreateDrawer();
+        SpotsDialog.Builder dialog = new SpotsDialog.Builder();
+        dialog.setContext(this);
+        dialog.setTheme(R.style.Progress_dialog);
+        dialog.setMessage("Fetching Data");
+        dialog.setCancelable(false);
+        d = dialog.build();
+        d.show();
         temp_text = findViewById(R.id.temperature_reading);
         co_text = findViewById(R.id.carbon_monoxide_reading);
         humidity_text = findViewById(R.id.humidity_reading);
@@ -71,45 +95,87 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
             settingsDialog.show();
         });
 
-        LocalDate toDate = LocalDate.now().plusDays(1);
-        LocalDate fromDate = LocalDate.now();
-        String URL = "http://111.68.101.14/db/data.php?node_id=2&from=" + fromDate + "&to=" + toDate;
-        Log.e("Url", URL);
-        AsyncFetch database = new AsyncFetch(this);
-        database.setOnResponse(this);
-        database.execute(URL);
-    }
-    public void onResponse(List<Air> object) {
-        if(object.size()==0){
-            Toast.makeText(this, "No data available!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Log.e("Json Response assigned", "Json Response "+ object.get(0).getTime() +" lol "+ object.get(0).getDate());
-        Air a = object.get(0);
-        date = a.getDate();
-        time = a.getTime();
-        nh3 = a.getNh3();
-        co = a.getCo();
-        no2 = a.getNo2();
-        so2 = a.getSo2();
-        dust = a.getDust();
-        ch4 = a.getCh4();
-        temperature = a.getTemperature();
-        humidity = a.getHumidity();
-        timestamp = "Last update: "+time + " "+ date;
-        Log.e("Json Response assigned", "Lists made ");
+        layout2 = findViewById(R.id.carbon_monoxide);
+        layout4 = findViewById(R.id.sulphur_dioxide);
+        layout5 = findViewById(R.id.methane);
+        layout6 = findViewById(R.id.dust);
 
-        colorBoxes();
-        setTextBoxes();
-        startRealtime();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .build();
+        myApolloClient = ApolloClient.builder()
+                .okHttpClient(okHttpClient)
+                .serverUrl("http://api.naqm.ml:8080/v1/graphql")
+                .subscriptionTransportFactory(new WebSocketSubscriptionTransport.Factory("ws://api.naqm.ml:8080/v1/graphql", okHttpClient))
+                .build();
+        myApolloClient.subscribe(new LatestReadingSubscription()).execute(new ApolloSubscriptionCall.Callback<LatestReadingSubscription.Data>() {
+            @Override
+            public void onResponse(@NotNull Response<LatestReadingSubscription.Data> response) {
+                Log.e("Apollo","onResponse `${response.data()}");
+                LatestReadingSubscription.Data abc = response.getData();
+                LatestReadingSubscription.Naqm_AirReading myObj = abc.naqm_AirReading().get(0);
+                makeObject(myObj);
+                Log.e("Apollo", String.valueOf(abc));
+                Log.e("Apollo", String.valueOf(myObj.timestamp));
+            }
+
+            @Override
+            public void onFailure(@NotNull ApolloException e) {
+
+                d.dismiss();
+//                Toast.makeText(HomepageActivity.this, "Server failed to respond, restart application", Toast.LENGTH_SHORT).show();
+                Log.e("Apollo", "Error ", e);
+            }
+
+            @Override
+            public void onCompleted() {
+                Log.e("Apollo", "completed");
+            }
+
+            @Override
+            public void onTerminated() {
+                Log.e("Apollo", "terminated");
+            }
+
+            @Override
+            public void onConnected() {
+                Log.e("Apollo", "connected");
+            }
+        });
+    }
+
+    private void makeObject(LatestReadingSubscription.Naqm_AirReading myObj){
+        nh3 = ((BigDecimal) myObj.nh3).doubleValue();
+        co = ((BigDecimal) myObj.co).doubleValue();
+        no2 = ((BigDecimal) myObj.no2).doubleValue();
+        so2 = ((BigDecimal) myObj.so2).intValue();
+        dust = ((BigDecimal) myObj.dust).intValue();
+        ch4 = ((BigDecimal) myObj.ch4).doubleValue();
+        temperature = ((BigDecimal) myObj.temperature).intValue();
+        humidity = ((BigDecimal) myObj.humidity).intValue();
+        String temp = (String) myObj.timestamp;
+        List<String> dateAndTime = Arrays.asList(temp.split("T"));
+        date = dateAndTime.get(0);
+        String timeTemp = dateAndTime.get(1);
+        Log.e("Date ", date+ " ++++"+timeTemp);
+        if(timeTemp.contains(".")){
+            List<String> timeTime = Arrays.asList(timeTemp.split("\\."));
+            time = timeTime.get(0);
+            Log.e("Date ", time);
+        }
+        else{
+            time = timeTemp;
+        }
+        timestamp = "Last update: "+time+" "+date;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                colorBoxes();
+                setTextBoxes();
+            }
+        });
     }
 
     public void colorBoxes(){
-        RelativeLayout layout2 = findViewById(R.id.carbon_monoxide);
-        RelativeLayout layout4 = findViewById(R.id.sulphur_dioxide);
-        RelativeLayout layout5 = findViewById(R.id.methane);
-        RelativeLayout layout6 = findViewById(R.id.dust);
-
         if(co < 4.4){
             layout2.setBackgroundResource(R.drawable.green_rect);
         }else if (co <12.4){
@@ -152,32 +218,13 @@ public class HomepageActivity extends BaseActivity implements AsyncFetch.onRespo
         ch4_text.setText(Double.toString(ch4));
         dust_text.setText(Integer.toString(dust));
         timestamp_text.setText(timestamp);
+        if(d.isShowing()){
+            d.dismiss();
+        }
     }
 
     public void dismissListener(View view) {
         settingsDialog.dismiss();
     }
 
-    public void startRealtime(){
-        scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
-        super.setService(scheduleTaskExecutor);
-        // This schedule a runnable task every 5 minutes
-        scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            public void run() {
-                getData5minutes();
-            }
-        }, 5*60, 5*60, TimeUnit.SECONDS);
-    }
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void getData5minutes(){
-        LocalDate toDate = LocalDate.now().plusDays(1);
-        LocalDate fromDate = LocalDate.now();
-        Log.e("Json Response BK", "running bk ");
-        String URL = "http://111.68.101.14/db/data.php?node_id=2&from=" + fromDate + "&to=" + toDate;
-        Log.e("Url", URL);
-        AsyncFetch database = new AsyncFetch(this);
-        database.setOnResponse(this);
-        database.execute(URL);
-    }
 }
